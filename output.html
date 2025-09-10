@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <title>News Card Output</title>
+  <script src="https://unpkg.com/html-to-image@1.10.7/dist/html-to-image.js"></script>
+  <style>
+    body { font-family: Arial, sans-serif; padding:20px; background:#f7f7f7; text-align:center; }
+    #newsCard {
+      width: 1080px; height: 1350px;
+      border-radius: 20px; overflow: hidden;
+      box-shadow:0 8px 30px rgba(0,0,0,0.2);
+      background-image: url("img/demo.png")
+    }
+    .date { padding:20px; width:100%; height:200px; margin-top:100px; }
+    .header { color:#fff; font-size:40px; font-weight:bold; text-align:right; margin-right:200px; margin-top:30px; }
+    .header p { font-size:30px; margin:0; padding:0; }
+    .photo { width:100%; height:484px; overflow:hidden; display:flex; justify-content:center; align-items:center; flex-direction:column; }
+    .image { text-align:center; height:484px; width:980px; border-radius:10% 35%; border:6px solid red; overflow:hidden; }
+    .image img { width:100%; height:100%; object-fit:cover; display:block; }
+    .content { padding:40px; text-align:center; }
+    .headline { font-size:48px; font-weight:bold; margin-bottom:20px; color:#111; }
+    .meta { font-size:38px; color:yellow; }
+    button { margin:20px 10px; padding:12px 24px; font-size:18px; border:none; border-radius:8px; background:#1976d2; color:#fff; cursor:pointer; }
+    button:hover { background:#0d47a1; }
+  </style>
+</head>
+<body>
+  <h1>📰 নিউজ কার্ড আউটপুট</h1>
+
+  <div id="newsCard">
+    <div class="date">
+      <div class="header">
+        <p>তারিখ:</p>
+        <p id="dateText"></p>
+      </div>
+    </div>
+
+    <div class="photo">
+      <div class="image">
+        <img id="previewImage" src="" alt="">
+      </div>
+    </div>
+
+    <div class="content">
+      <div class="headline" id="headlineText"></div>
+      <div class="meta" id="metaText"></div>
+    </div>
+  </div>
+
+  <div>
+    <button id="savePng">Download as PNG</button>
+    <button id="saveJpg">Download as JPG</button>
+  </div>
+
+  <script>
+    // 🔹 localStorage থেকে ডাটা নেওয়া
+    const headline = localStorage.getItem("newsHeadline") || "নিউজ হেডলাইন";
+    const date = localStorage.getItem("newsDate") || "০২/০১/২০২৫";
+    const meta = localStorage.getItem("newsMeta") || "Dhaka • 10 Sep, 2025";
+    const image = localStorage.getItem("newsImage") || "img/demo2.jpg";
+
+    document.getElementById("headlineText").innerText = headline;
+    document.getElementById("dateText").innerText = date;
+    document.getElementById("metaText").innerText = meta;
+    document.getElementById("previewImage").src = image;
+
+    const card = document.getElementById("newsCard");
+
+    // PNG ডাউনলোড
+    document.getElementById("savePng").addEventListener("click", () => {
+      htmlToImage.toPng(card, { pixelRatio:2 }).then(dataUrl => {
+        const link = document.createElement("a");
+        link.download = "news-card.png";
+        link.href = dataUrl;
+        link.click();
+      });
+    });
+
+    // JPG ডাউনলোড
+    document.getElementById("saveJpg").addEventListener("click", () => {
+      htmlToImage.toJpeg(card, { pixelRatio:2, quality:0.95 }).then(dataUrl => {
+        const link = document.createElement("a");
+        link.download = "news-card.jpg";
+        link.href = dataUrl;
+        link.click();
+      });
+    });
+  </script>
+</body>
+</html>

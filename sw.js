@@ -2,6 +2,7 @@ const CACHE_NAME = "news-card-cache-v1";
 const urlsToCache = [
   "./",
   "./index.html",
+  "./card1.html",
   "./output.html",
   "./style.css",
   "./img/demo.png",

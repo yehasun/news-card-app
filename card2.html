@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>News Card Form 2</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding:20px; background:#f7f7f7; margin:0; }
+    h1 { text-align:center; font-size:1.6rem; }
+    .form-container { max-width:600px; margin:0 auto; background:#fff; padding:20px; border-radius:12px; box-shadow:0 4px 15px rgba(0,0,0,0.1);}
+    .form-group { margin-bottom:15px; }
+    label { font-weight:bold; display:block; margin-bottom:6px; font-size:0.95rem; }
+    input, textarea { width:100%; padding:10px; border-radius:8px; border:1px solid #ccc; font-size:1rem; box-sizing:border-box; }
+    input[type="file"] { border:none; }
+    button { margin-top:10px; padding:12px 24px; font-size:1rem; border:none; border-radius:8px; background:#1976d2; color:#fff; cursor:pointer; width:100%; }
+    button:hover { background:#0d47a1; }
+
+    /* ছোট ডিভাইসের জন্য */
+    @media (max-width:480px) {
+      h1 { font-size:1.3rem; }
+      label { font-size:0.85rem; }
+      button { font-size:0.9rem; padding:10px; }
+    }
+  </style>
+</head>
+<body>
+  <h1>📝 নিউজ কার্ড ফর্ম ২</h1>
+
+  <div class="form-container">
+    <div class="form-group">
+      <label for="headline">নিউজ হেডলাইন</label>
+      <textarea id="headline" rows="2" placeholder="নিউজ হেডলাইন লিখুন"></textarea>
+    </div>
+
+    <div class="form-group">
+      <label for="date">তারিখ</label>
+      <input type="text" id="date" placeholder="০২/০১/২০২৫">
+    </div>
+
+    <div class="form-group">
+      <label for="meta">মেটা তথ্য</label>
+      <input type="text" id="meta" placeholder="Dhaka • 10 Sep, 2025">
+    </div>
+
+    <div class="form-group">
+      <label for="image">ইমেজ আপলোড</label>
+      <input type="file" id="image" accept="image/*">
+    </div>
+
+    <button id="submitBtn">Generate News Card</button>
+  </div>
+
+  <script>
+    const submitBtn = document.getElementById("submitBtn");
+    const imageInput = document.getElementById("image");
+
+    submitBtn.addEventListener("click", () => {
+      const headline = document.getElementById("headline").value;
+      const date = document.getElementById("date").value;
+      const meta = document.getElementById("meta").value;
+
+      if (!headline || !date || !meta) {
+        alert("সকল তথ্য পূরণ করুন");
+        return;
+      }
+
+      const file = imageInput.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          localStorage.setItem("newsImage2", e.target.result);
+          localStorage.setItem("newsHeadline2", headline);
+          localStorage.setItem("newsDate2", date);
+          localStorage.setItem("newsMeta2", meta);
+          window.location.href = "output2.html";
+        };
+        reader.readAsDataURL(file);
+      } else {
+        localStorage.setItem("newsImage2", "");
+        localStorage.setItem("newsHeadline2", headline);
+        localStorage.setItem("newsDate2", date);
+        localStorage.setItem("newsMeta2", meta);
+        window.location.href = "output2.html";
+      }
+    });
+  </script>
+</body>
+</html>
